@@ -1,0 +1,30 @@
+version: "3.7"
+
+x-gcam-volumes:
+  &gcam-vols
+  - gcamdata-xml:/gcam/input/gcamdata/xml
+  - ./local/output:/gcam/output
+  - ./local/input:/gcam/input-local
+
+services:
+  gcam-dev:
+    image: ashiklom/gcam:hector-update
+    volumes: *gcam-vols
+    working_dir: /gcam/exe
+
+  gcam:
+    image: ashiklom/gcam:master
+    volumes: *gcam-vols
+    working_dir: /gcam/exe
+
+  gcamdata:
+    image: ashiklom/gcamdata:latest
+    volumes:
+      - gcamdata-xml:/gcamdata/xml
+    build:
+      context: ../gcamdata
+    working_dir: /gcamdata
+    command: ["Rscript", "-e", "devtools::load_all(); driver()"]
+
+volumes:
+  gcamdata-xml:
