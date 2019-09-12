@@ -1,31 +1,41 @@
 library(rgcam)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+
+qf <- "custom-query.xml"
 
 conn <- localDBConn("local/output/", "database_basexdb")
-proj <- addScenario(conn, "master.dat", "master-branch")
-proj <- addScenario(conn, "master.dat", "hector-update")
+proj <- addScenario(conn, "master.dat", "master-branch", queryFile = qf)
+proj <- addScenario(conn, "master.dat", "hector-update", queryFile = qf)
 
-master <- dplyr::bind_rows(
-  proj[["master-branch"]][c(
-    "CO2 concentrations",
-    "Climate forcing",
-    "Global mean temperature"
-  )],
+vars <- c(
+  "CO2 concentrations",
+  "N2O concentrations",
+  "Climate forcing",
+  "Global mean temperature"
+)
+
+master <- bind_rows(
+  proj[["master-branch"]][vars],
   .id = "variable"
 )
 
-hector <- dplyr::bind_rows(
-  proj[["hector-update"]][c(
-    "CO2 concentrations",
-    "Climate forcing",
-    "Global mean temperature"
-  )],
+hector <- bind_rows(
+  proj[["hector-update"]][vars],
   .id = "variable"
 )
 
-dat <- dplyr::bind_rows(master, hector)
+dat <- bind_rows(master, hector)
 
-library(ggplot2)
 ggplot(dat) +
   aes(x = year, y = value, color = scenario) +
   geom_line() +
   facet_wrap(vars(variable), scales = "free_y")
+
+dat_wide <- spread(dat, scenario, value)
+ggplot(dat_wide) +
+  aes(x = `hector-update`, y = `master-branch`) +
+  geom_point() +
+  geom_abline() +
+  facet_wrap(vars(variable), scales = "free")

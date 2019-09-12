@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+  <aQuery>
+
+    <all-regions/>
+    <ClimateQuery title="CO2 concentrations">
+      <axis1 name="CO2-concentration">none</axis1>
+      <axis2 name="Year">CO2-concentration[@year]</axis2>
+      <xPath buildList="true" dataName="CO2-concentration" group="false" sumAll="false">climate-model/CO2-concentration/text()</xPath>
+      <comments/>
+    </ClimateQuery>
+  </aQuery>
+
+   <aQuery>
+     <all-regions/>
+     <ClimateQuery title="Climate forcing">
+       <axis1 name="forcing-total">none</axis1>
+       <axis2 name="Year">forcing-total[@year]</axis2>
+       <xPath buildList="true" dataName="forcing-total" group="false" sumAll="false">climate-model/forcing-total/text()</xPath>
+       <comments/>
+     </ClimateQuery>
+   </aQuery>
+
+   <aQuery>
+     <all-regions/>
+     <ClimateQuery title="Global mean temperature">
+       <axis1 name="temperature">none</axis1>
+       <axis2 name="Year">global-mean-temperature[@year]</axis2>
+       <xPath buildList="true" dataName="global-mean-temperature" group="false" sumAll="false">climate-model/global-mean-temperature/text()</xPath>
+       <comments/>
+     </ClimateQuery>
+     </aQuery>
+
+
+      <aQuery>
+	<all-regions/>
+         <gdpQueryBuilder title="GDP by region">
+            <axis1 name="region">region</axis1>
+            <axis2 name="Year">gdp-mer</axis2>
+            <xPath buildList="true" dataName="gdp-mer" group="false" sumAll="false">GDP/gdp-mer/text()</xPath>
+            <comments/>
+         </gdpQueryBuilder>
+      </aQuery>
+
+      <aQuery>
+	<all-regions/>
+        <gdpQueryBuilder title="PPP GDP by region">
+          <axis1 name="Region">region</axis1>
+          <axis2 name="Year">gdp-per-capita-ppp</axis2>
+          <xPath buildList="true" dataName="gdp-per-capita-ppp" group="false" sumAll="false">GDP/gdp-per-capita-ppp/text()</xPath>
+          <comments/>
+	</gdpQueryBuilder>
+      </aQuery>
+
+      <aQuery>
+	<all-regions/>
+         <demographicsQuery title="Population by region">
+            <axis1 name="region">region</axis1>
+            <axis2 name="Year">populationMiniCAM</axis2>
+            <xPath buildList="true" dataName="total-population" group="false" sumAll="false">demographics/populationMiniCAM/total-population/node()</xPath>
+            <comments/>
+         </demographicsQuery>
+      </aQuery>
+
+      <aQuery>
+	<all-regions/>
+	<supplyDemandQuery title="Building floorspace">
+          <axis1 name="Building">gcam-consumer[@name]</axis1>
+          <axis2 name="Year">floorspace[@year]</axis2>
+          <xPath buildList="true" dataName="floorspace" group="false" sumAll="false">gcam-consumer//floorspace/node()</xPath>
+          <comments/>
+	</supplyDemandQuery>
+      </aQuery>
+
+
+      <aQuery>
+	<all-regions/>
+	<query title="Land Allocation">
+          <axis1 name="land-allocation">LandLeaf</axis1>
+          <axis2 name="Year">land-allocation[@year]</axis2>
+          <xPath buildList="true" dataName="land-allocation" group="false" sumAll="false">/LandNode[@name='root' or @type='LandNode' (: collapse :)]//land-allocation/text()</xPath>
+          <comments/>
+	</query>
+	</aQuery>
+
+    <aQuery>
+      <all-regions/>
+      <ClimateQuery title="N2O concentrations">
+        <axis1 name="N2O-concentration">none</axis1>
+        <axis2 name="Year">N2O-concentration[@year]</axis2>
+        <xPath buildList="true" dataName="N2O-concentration" group="false" sumAll="false">climate-model/N2O-concentration/text()</xPath>
+        <comments/>
+      </ClimateQuery>
+    </aQuery>
+
+</queries>
