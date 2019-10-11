@@ -3,7 +3,8 @@ library(rgcam)
 
 tag <- format(Sys.time(), "%Y%m%d%H%M")
 
-input_file <- "local/input/reference_run.xml"
+## input_file <- "local/input/reference_run.xml"
+input_file <- "./local/input/configuration_ref.xml"
 input_xml <- read_xml(input_file)
 strings <- xml_child(input_xml, "Strings")
 

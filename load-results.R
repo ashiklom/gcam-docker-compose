@@ -5,7 +5,7 @@ library(tidyr)
 
 qf <- "custom-query.xml"
 projfile <- "master.dat"
-## file.remove(projfile)
+file.remove(projfile)
 
 conn <- localDBConn("local/output/", "database_basexdb")
 scenarios <- listScenariosInDB(conn) %>%
