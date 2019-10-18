@@ -10,6 +10,8 @@ x-gcam-build:
   &gcam-build
   context: ../gcam-core
   dockerfile: ../docker-gcam/Dockerfile
+  args:
+    - NCPU=4
 
 services:
   gcam-dev:
