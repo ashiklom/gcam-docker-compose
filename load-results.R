@@ -2,10 +2,11 @@ library(rgcam)
 library(ggplot2)
 library(dplyr)
 library(tidyr)
+library(forcats)
 
 qf <- "custom-query.xml"
 projfile <- "master.dat"
-file.remove(projfile)
+suppressWarnings(file.remove(projfile))
 
 conn <- localDBConn("local/output/", "database_basexdb")
 scenarios <- listScenariosInDB(conn) %>%
@@ -28,17 +29,22 @@ vars <- c(
 
 dmaster <- bind_rows(proj[[master]][vars], .id = "variable")
 dhector <- bind_rows(proj[[branch]][vars], .id = "variable")
-dat <- bind_rows(dmaster, dhector)
+dat <- bind_rows(dmaster, dhector) %>%
+  mutate(scenario = fct_inorder(scenario) %>%
+           fct_relabel(~gsub("-[[:digit:]]+$", "", .)))
 
 ggplot(dat) +
   aes(x = year, y = value, color = scenario) +
   geom_line() +
-  facet_wrap(vars(variable), scales = "free_y")
+  facet_wrap(vars(variable), scales = "free_y") +
+  theme_bw()
+ggsave("~/Desktop/version-compare.png")
 
-dat_wide <- spread(dat, scenario, value)
-# TODO: Fix the column names
+dat_wide <- dat %>%
+  mutate(scenario = gsub("-.*", "", scenario)) %>%
+  spread(scenario, value)
 ggplot(dat_wide) +
-  aes_string(x = master, y = branch) +
+  aes(x = master, y = hector) +
   geom_point() +
   geom_abline() +
   facet_wrap(vars(variable), scales = "free")
