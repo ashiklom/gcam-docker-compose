@@ -13,9 +13,13 @@ scenarios <- listScenariosInDB(conn) %>%
   filter(grepl("2019", name))
 master <- scenarios %>%
   filter(grepl("master", name)) %>%
+  arrange(desc(date)) %>%
+  slice(1) %>%
   pull(name)
 branch <- scenarios %>%
   filter(grepl("hector-update", name)) %>%
+  arrange(desc(date)) %>%
+  slice(1) %>%
   pull(name)
 proj <- addScenario(conn, projfile, master, queryFile = qf)
 proj <- addScenario(conn, projfile, branch, queryFile = qf)
@@ -38,13 +42,17 @@ ggplot(dat) +
   geom_line() +
   facet_wrap(vars(variable), scales = "free_y") +
   theme_bw()
+
 ggsave("~/Desktop/version-compare.png")
 
 dat_wide <- dat %>%
   mutate(scenario = gsub("-.*", "", scenario)) %>%
   spread(scenario, value)
+
 ggplot(dat_wide) +
-  aes(x = master, y = hector) +
-  geom_point() +
-  geom_abline() +
-  facet_wrap(vars(variable), scales = "free")
+  aes(x = year, y = hector - master) +
+  geom_line() +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  facet_wrap(vars(variable), scales = "free") +
+  theme_bw()
+ggsave("~/Desktop/version-diffs.png")
