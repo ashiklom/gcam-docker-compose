@@ -6,25 +6,11 @@ x-gcam-volumes:
   - ./local/output:/gcam/output
   - ./local/input:/gcam/input-local
 
-x-gcam-build:
-  &gcam-build
-  context: ../gcam-core
-  dockerfile: ../docker-gcam/Dockerfile
-  args:
-    - NCPU=4
-
 services:
-  gcam-dev:
-    image: ashiklom/gcam:hector-update
+  gcam-hector:
+    image: gcam-hector:${HECTOR_VERSION}
     volumes: *gcam-vols
     working_dir: /gcam/exe
-    build: *gcam-build
-
-  gcam:
-    image: ashiklom/gcam:master
-    volumes: *gcam-vols
-    working_dir: /gcam/exe
-    build: *gcam-build
 
   gcamdata:
     image: ashiklom/gcamdata:latest
@@ -32,9 +18,8 @@ services:
       - gcamdata-xml:/gcamdata/xml
     build:
       context: ../gcam-core/input/gcamdata
-      dockerfile: ../../../gcamdata/Dockerfile
+      dockerfile: ../../../gcam-docker-compose/Dockerfile-gcamdata
     working_dir: /gcamdata
-    command: ["Rscript", "-e", "devtools::load_all(); driver()"]
 
 volumes:
   gcamdata-xml:
