@@ -25,5 +25,5 @@ write_xml(input_xml, file.path("local", "input", infile))
 
 cmd <- sprintf("./gcam.exe -C %s", file.path("..", "input-local", infile))
 
-system2("docker-compose", c("run", "gcam-hector", cmd),
+system2("docker-compose", c("run", "--rm", "gcam-hector", cmd),
         env = sprintf("HECTOR_VERSION=%s", hector_version))

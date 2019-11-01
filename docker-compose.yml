@@ -20,6 +20,7 @@ services:
       context: ../gcam-core/input/gcamdata
       dockerfile: ../../../gcam-docker-compose/Dockerfile-gcamdata
     working_dir: /gcamdata
+    command: ["Rscript", "-e", "devtools::load_all()", "-e", "driver()"]
 
 volumes:
   gcamdata-xml:
