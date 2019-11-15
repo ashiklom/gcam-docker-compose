@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# Takes one argument. Either...
+# - "default" -- Build GCAM master branch
+# - Hector git reference (branch, commit, etc. -- e.g. "master") -- Build that branch of Hector
+
 HECTOR_VERSION=$1
 GCAMROOT="../gcam-core"
 CWD=$(pwd)
