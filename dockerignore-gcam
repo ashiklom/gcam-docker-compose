@@ -1,0 +1,6 @@
+.git/
+.gitignore
+.gitmodules
+
+input/gcamdata/
+input/magicc/

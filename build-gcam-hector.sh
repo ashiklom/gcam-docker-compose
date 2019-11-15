@@ -8,6 +8,11 @@ HECTOR_VERSION=$1
 GCAMROOT="../gcam-core"
 CWD=$(pwd)
 
+# Add dockerignore file if it's not there already
+if [[ ! -f "$GCAMROOT/.dockerignore" ]]; then
+    ln -s dockerignore-gcam "$GCAMROOT/.dockerignore"
+fi
+
 cd $GCAMROOT || exit 1
 
 if [[ $HECTOR_VERSION = "default" ]]
