@@ -2,3 +2,4 @@ local/output/
 local/input/*.xml
 !local/input/reference_run.xml
 *.dat
+/figures/
