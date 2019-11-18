@@ -1,26 +1,18 @@
 version: "3.7"
 
-x-gcam-volumes:
-  &gcam-vols
-  - gcamdata-xml:/gcam/input/gcamdata/xml
-  - ./local/output:/gcam/output
-  - ./local/input:/gcam/input-local
-
 services:
   gcam-hector:
-    image: gcam-hector:${HECTOR_VERSION}
-    volumes: *gcam-vols
+    image: ashiklom/gcam-hector:${HECTOR_VERSION}
+    volumes:
+      - ../gcam-core/input/gcamdata/:/gcam/input/gcamdata/
+      - ./local/output:/gcam/output
+      - ./local/input:/gcam/input-local
     working_dir: /gcam/exe
 
   gcamdata:
     image: ashiklom/gcamdata:latest
-    volumes:
-      - gcamdata-xml:/gcamdata/xml
     build:
       context: ../gcam-core/input/gcamdata
       dockerfile: ../../../gcam-docker-compose/Dockerfile-gcamdata
     working_dir: /gcamdata
     command: ["Rscript", "-e", "devtools::load_all()", "-e", "driver()"]
-
-volumes:
-  gcamdata-xml:

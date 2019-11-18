@@ -1,10 +1,16 @@
 #!/usr/bin/env Rscript
+
+# Arguments:
+# (1) Hector version (e.g. "default", "master")
+# (2) Scenario (default is "reference_run"). Must match name of scenario file,
+# without the .xml extension
+
 argv <- commandArgs(trailingOnly = TRUE)
 hector_version <- argv[1]
 stopifnot(!is.na(hector_version))
 scenario <- argv[2]
 if (is.na(scenario)) scenario <- "reference_run"
-input_file <- file.path("local", "input", "reference_run.xml")
+input_file <- file.path("local", "input", glue::glue("{scenario}.xml"))
 stopifnot(file.exists(input_file))
 
 library(xml2)
